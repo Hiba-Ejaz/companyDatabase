@@ -17,3 +17,43 @@ $$ LANGUAGE plpgsql;
 SELECT track_working_hours(20, 7, 40.5);
 SELECT track_working_hours(23, 7, 32.25);
 SELECT track_working_hours(12, 7, 22.75);
+
+
+-- Create a function create_project_with_teams to create a project
+-- and assign teams to that project simultaneously. Test this function
+CREATE FUNCTION CREATE_PROJECT_WITH_TEAMS(PROJECT_NAME 
+VARCHAR, CLIENT VARCHAR, START_DATE DATE, DEADLINE 
+DATE, TEAM INTEGER[]) RETURNS VOID AS 
+	$$ DECLARE project_id integer;
+	team_id integer;
+	BEGIN
+	insert into
+	    projects (
+	        name,
+	        client,
+	        start_date,
+	        deadline
+	    )
+	values (
+	        PROJECT_NAME,
+	        CLIENT,
+	        START_DATE,
+	        DEADLINE
+	    ) RETURNING project_id into project_id;
+	FOREACH team_id in ARRAY teams
+	loop
+	insert into
+	    team_project (team_id, project_id)
+	values (team_id, project_id);
+	end loop;
+END; 
+
+$$ LANGUAGE plpgsql;
+
+SELECT create_project_with_teams(
+    'New Project',
+    'Client XYZ',
+    '2023-07-01',
+    '2023-12-31',
+    ARRAY[1, 2, 3]
+);
