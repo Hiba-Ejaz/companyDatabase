@@ -12,3 +12,5 @@ WHERE manager.first_name LIKE 'J%' OR manager.first_name LIKE 'D%';
 Select e.first_name from employee e join employee m on m.employee_id=e.manager_id WHERE m.first_name = 'Andrew' AND m.last_name = 'Martin';
 --Retrieve all the employees (both directly and indirectly) working under Robert Brown
 Select e.first_name from employee e join employee m on m.employee_id=e.manager_id WHERE m.first_name = 'Robert' AND m.last_name = 'Brown';
+-- Retrieve the average hourly salary for each title.
+Select  avg(hourly_salary),t.name from employee e join title t on e.title_id=t.title_id group by t.name order by avg(e.hourly_salary);
