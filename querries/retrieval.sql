@@ -8,3 +8,5 @@ JOIN team_project ON project.project_id = team_project.project_id
 JOIN employee e ON e.team_id = team_project.team_id
 JOIN employee manager ON manager.manager_id = e.employee_id
 WHERE manager.first_name LIKE 'J%' OR manager.first_name LIKE 'D%';
+--"Retrieve all the employees (both directly and indirectly) working under Andrew Martin"
+Select e.first_name from employee e join employee m on m.employee_id=e.manager_id WHERE m.first_name = 'Andrew' AND m.last_name = 'Martin';
