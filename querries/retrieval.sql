@@ -10,3 +10,5 @@ JOIN employee manager ON manager.manager_id = e.employee_id
 WHERE manager.first_name LIKE 'J%' OR manager.first_name LIKE 'D%';
 --"Retrieve all the employees (both directly and indirectly) working under Andrew Martin"
 Select e.first_name from employee e join employee m on m.employee_id=e.manager_id WHERE m.first_name = 'Andrew' AND m.last_name = 'Martin';
+--Retrieve all the employees (both directly and indirectly) working under Robert Brown
+Select e.first_name from employee e join employee m on m.employee_id=e.manager_id WHERE m.first_name = 'Robert' AND m.last_name = 'Brown';
